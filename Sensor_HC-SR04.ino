@@ -1,42 +1,43 @@
-// Definições dos pinos do sensor HC-SR04
-const int trigPin = 16;  // Pino GPIO 18 para o Trig (emissão do sinal)
-const int echoPin = 18;  // Pino GPIO 19 para o Echo (recepção do sinal)
+// Pin definitions for HC-SR04 sensor
+const int trigPin = 16;  // GPIO 18 for Trig (signal emission)
+const int echoPin = 18;  // GPIO 19 for Echo (signal reception)
 const int ledPin = 32;
-// Definindo variáveis
-long duration;  // Variável para armazenar o tempo que o Echo leva para retornar
-float distancia;  // Variável para armazenar o cálculo da distância
+
+// Defining variables
+long duration;  // Variable to store the time the Echo takes to return
+float distance;  // Variable to store the calculated distance
 
 void setup() {
-  // Inicializa a comunicação serial para monitoramento
+  // Initializes serial communication for monitoring
   Serial.begin(115200);
 
-  // Configura os pinos de Trigger e Echo
-  pinMode(trigPin, OUTPUT);  // Pino do Trig como saída
-  pinMode(echoPin, INPUT);   // Pino do Echo como entrada
-  pinMode(ledPin, OUTPUT);
+  // Configures the Trigger and Echo pins
+  pinMode(trigPin, OUTPUT);  // Set Trig pin as output
+  pinMode(echoPin, INPUT);   // Set Echo pin as input
+  pinMode(ledPin, OUTPUT);   // Set LED pin as output
 }
 
 void loop() {
-  digitalWrite(trigPin, LOW);  // Garante que o Trig está em LOW
+  digitalWrite(trigPin, LOW);  // Ensures the Trig pin is LOW
   delayMicroseconds(2);
   
-  digitalWrite(trigPin, HIGH);  // Envia um pulso de 10 microssegundos
+  digitalWrite(trigPin, HIGH);  // Sends a 10-microsecond pulse
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   
-  duration = pulseIn(echoPin, HIGH);  // Mede o tempo do sinal retornado
-    distancia = (duration * 0.0343) / 2;  // Calcula a distância
+  duration = pulseIn(echoPin, HIGH);  // Measures the duration of the returned signal
+  distance = (duration * 0.0343) / 2;  // Calculates the distance
   
-  Serial.print("Distância: ");
-  Serial.print(distancia);  // Imprime a distância
+  Serial.print("Distance: ");
+  Serial.print(distance);  // Prints the distance
   Serial.println(" cm");
 
-  // Lógica para acender o LED baseado na distância
-  if (distancia < 10) { // Se a distância for menor que 10 cm
-    digitalWrite(ledPin, HIGH);  // Acende o LED
+  // Logic to turn on the LED based on distance
+  if (distance < 10) {  // If the distance is less than 10 cm
+    digitalWrite(ledPin, HIGH);  // Turn on the LED
   } else {
-    digitalWrite(ledPin, LOW);   // Apaga o LED
+    digitalWrite(ledPin, LOW);   // Turn off the LED
   }
 
-  delay(500);  // Delay entre leituras
+  delay(500);  // Delay between readings
 }
